@@ -37,14 +37,12 @@ export const signup = async (req, res) => {
       role,
     });
 
-    await newUser.save();
-
     console.log("newUser===>", newUser);
 
     res.status(200).json({
-        message: "user found",
-        data: req.body,
-      });
+      message: "user found",
+      data: req.body,
+    });
   } catch (error) {
     console.log("error in signup ==>", error.message);
     res.status(500).json({
