@@ -38,9 +38,9 @@ export const signup = async (req, res) => {
     });
 
     console.log("newUser===>", newUser);
-
+    newUser.save();
     res.status(200).json({
-      message: "user found",
+      message: "Created successfully",
       data: req.body,
     });
   } catch (error) {
@@ -50,5 +50,26 @@ export const signup = async (req, res) => {
     });
   }
 };
-export const login = (req, res) => {};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!password || !email) {
+      res.status(400).json({
+        message: "all fields must be filled",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user == null) {
+      res.status(500).json({
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    console.log("error in login==>", error.message);
+  }
+};
+
 export const allUser = (req, res) => {};
