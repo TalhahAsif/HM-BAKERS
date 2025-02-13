@@ -1,7 +1,15 @@
 import jwt from "jsonwebtoken";
 
-export const generateToken = (userID, role) => {
-  const token = jwt.sign({ userID, role }, JWT_SECRAT, {
+export const generateToken = (userID, role, res) => {
+  const token = jwt.sign({ userID, role }, process.env.JWT_SECRAT, {
     expiresIn: "7d",
   });
+  res.cookie("jwt", token, {
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
+
+  return token;
 };
