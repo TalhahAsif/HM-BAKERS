@@ -1,4 +1,4 @@
-import User from "../Models/user.model.js";
+import Customer from "../Models/customer.model.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { generateToken } from "../Utils/jwtToken.js";
@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
       });
     }
 
-    const isExist = await User.findOne({ email });
+    const isExist = await Customer.findOne({ email });
 
     if (isExist) {
       res.status(400).json({
@@ -29,18 +29,18 @@ export const signup = async (req, res) => {
     const salt_round = await bcrypt.genSalt(11);
     const hashedPassword = await bcrypt.hash(password, salt_round);
 
-    const newUser = new User({
+    const newCustomer = new Customer({
       userName,
       email,
       password: hashedPassword,
       role,
     });
 
-    console.log("newUser===>", newUser);
+    // console.log("newUser===>", newCustomer);
 
-    if (newUser) {
-      generateToken(newUser._id, newUser.role, res);
-      newUser.save();
+    if (newCustomer) {
+      generateToken(newCustomer._id, newCustomer.role, res);
+      newCustomer.save();
       res.status(200).json({
         message: "Created successfully",
         data: req.body,
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
+    const user = await Customer.findOne({ email });
 
     if (!user) {
       res.status(500).json({
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
         message: "Invalid Credentials",
       });
     }
-
+    generateToken(user._id, user.role, res);
     res.status(200).json({
       user,
       message: "Login Successfull",
