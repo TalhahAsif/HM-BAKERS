@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../Models/customer.model.js";
+import Admin from "../Models/admins.model.js";
 
 export const isUser = async (req, res, next) => {
   //   console.log("middleware executed", req);
@@ -10,7 +11,7 @@ export const isUser = async (req, res, next) => {
 
     if (!token) {
       res.json({
-        message: "access denied",
+        message: "User hi nhi ha ye",
       });
     }
 
@@ -24,15 +25,21 @@ export const isUser = async (req, res, next) => {
       });
     }
 
-    const user = await User.findById(decoded.userID).select("-password");
+    const customer = await User.findById(decoded.userID).select("-password");
+    const admin = await Admin.findById(decoded.userID).select("-password");
 
-    if (!user) {
+    if (!customer && !admin) {
       res.status(500).json({
         message: "User not found",
       });
     }
 
-    req.user = user;
+    if (admin) {
+      req.user = admin;
+    } else {
+      req.user = customer;
+    }
+
     next();
   } catch (error) {
     console.log("error in isUser middleware ==>", error);
@@ -41,18 +48,4 @@ export const isUser = async (req, res, next) => {
       message: "some thing went wrong",
     });
   }
-};
-
-export const checkRole = async (req, res, next) => {
-
-  try {
-    const userRole = req.user.role;
-
-    if (userRole != "admin" || userRole != "manager") {
-      res.status(500).json({
-        message: "Access denied",
-      });
-    }
-    next();
-  } catch (error) {}
 };

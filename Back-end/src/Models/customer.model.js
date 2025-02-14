@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const customerSchema = new mongoose.Schema(
   {
@@ -8,9 +8,14 @@ const customerSchema = new mongoose.Schema(
     role: {
       type: String,
       required: "true",
-      enum: ["admin", "manager", "custumer"],
-      default: "custumer",
+      default: "customer",
     },
+    favorites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Products",
+      },
+    ],
     profileImg: {
       type: String,
       default:
