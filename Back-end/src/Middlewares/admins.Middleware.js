@@ -1,13 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../Models/customer.model.js";
 
-const Authorities = [
-  "manage Inventory",
-  "manage customers",
-  "view order",
-  "dispatch orders",
-];
-
 //// it is responsible for only super admin and manager can access
 export const checkRole = async (req, res, next) => {
   try {
@@ -35,23 +28,26 @@ export const checkRole = async (req, res, next) => {
 export const isAllowed = (req, res, next) => {
   try {
     const userRole = req.user.role;
-    const authorities = req.user.authorities;
+    const assignedAuthorities = req.user.authorities;
+    const task = req.body.function;
+
+    console.log(typeof userRole);
 
     if (userRole == "admin") {
-      next();
+      return next();
     }
+    console.log("yaha tak chal raha ha");
 
-    const allowed = authorities.filter((authority) =>
-      Authorities.includes(authority)
-    );
+    const allowed = assignedAuthorities.includes(task);
+
+    console.log(allowed);
 
     if (!allowed) {
       res.status(200).json({
         message: "access denied",
       });
-    } else {
-      next();
     }
+    next();
   } catch (error) {
     console.log("error in isAllowed middleware", error);
     res.status(500).json({

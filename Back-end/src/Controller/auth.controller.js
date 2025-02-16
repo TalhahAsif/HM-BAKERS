@@ -131,7 +131,7 @@ export const allUser = async (req, res) => {
 
 export const checkAuth = (req, res) => {
   try {
-    res.status(200).json(req.user);
+    res.status(200).json({ user: req.user });
   } catch (error) {
     console.log("error in check Auth", error.message);
     res.status(500).json({
@@ -160,7 +160,7 @@ export const adminSignup = async (req, res) => {
     const isExist = await Admin.findOne({ email });
 
     if (isExist) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Admin already exist with this email.",
       });
     }
@@ -179,7 +179,7 @@ export const adminSignup = async (req, res) => {
     if (newAdmin) {
       generateToken(newAdmin._id, newAdmin.role, res);
       newAdmin.save();
-      res.status(200).json({
+      return res.status(200).json({
         message: "Account created successfully",
         data: req.body,
       });
@@ -191,15 +191,15 @@ export const adminLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!password || !email) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "all fields must be filled",
       });
     }
 
     const user = await Admin.findOne({ email });
-    
+
     if (!user) {
-      res.status(500).json({
+      return res.status(500).json({
         error: true,
         message: "Invalid Credentials",
       });
@@ -208,13 +208,14 @@ export const adminLogin = async (req, res) => {
     const isAuthorized = await bcrypt.compare(password, user.password);
 
     if (!isAuthorized) {
-      res.status(500).json({
+      return res.status(500).json({
         error: true,
         message: "Invalid Credentials",
       });
     }
+
     generateToken(user._id, user.role, res);
-    res.status(200).json({
+    return res.status(200).json({
       user,
       message: "Login Successfull",
     });

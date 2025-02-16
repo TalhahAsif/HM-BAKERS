@@ -7,11 +7,11 @@ export const isUser = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
 
-    // console.log("token", token);
+    console.log("token", token);
 
     if (!token) {
       res.json({
-        message: "User hi nhi ha ye",
+        message: "user not found",
       });
     }
 
