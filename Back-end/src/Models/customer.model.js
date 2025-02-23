@@ -21,6 +21,7 @@ const customerSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/dhylynexh/image/upload/v1735133619/mzzxerbhycfp3ennyypk.png",
     },
+    address: { type: String },
   },
   { timestamps: true }
 );

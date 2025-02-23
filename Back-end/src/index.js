@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./lib/connectDB.js";
 import authRoutes from "./Routes/UserRoutes.js";
+import productRoutes from "./Routes/Product.Routes.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -11,7 +12,9 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/api/auth", authRoutes);
+app.use("/api/manageInventory", productRoutes);
 
 app.listen(PORT, () => {
   connectDB();

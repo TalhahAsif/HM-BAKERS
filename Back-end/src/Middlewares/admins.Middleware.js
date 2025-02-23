@@ -36,8 +36,6 @@ export const isAllowed = (req, res, next) => {
     if (userRole == "admin") {
       return next();
     }
-    console.log("yaha tak chal raha ha");
-
     const allowed = assignedAuthorities.includes(task);
 
     console.log(allowed);
