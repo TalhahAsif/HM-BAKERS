@@ -1,18 +1,20 @@
-import Product from "../Models/Product.model";
+import Product from "../Models/Product.model.js";
 
 export const addProduct = async (req, res) => {
-  const { title, description, category, quantity, createdby } = req.body();
+  const { title, description, category, price, quantity, createdby } = req.body;
   try {
-    if (!title || !description || !category || quantity) {
-      res.status(500).json({
+    if (!title || !description || !category || !quantity || !price) {
+      return res.status(500).json({
         message: "Please fill all the fields",
       });
     }
 
-    const isExist = await Product.findOne(title);
+    console.log(title);
+
+    const isExist = await Product.findOne({ title });
 
     if (isExist) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "This Item already Exist",
       });
     }
@@ -22,19 +24,20 @@ export const addProduct = async (req, res) => {
       description,
       category,
       quantity,
+      price,
       createdby,
     });
 
     if (newProduct) {
-      newProduct.save();
-      res.status(201).json({
+      await newProduct.save();
+      return res.status(201).json({
         message: "Product Added",
         newProduct,
       });
     }
   } catch (error) {
-    console.log("error in add category==>", error);
-    res.status(500).json({
+    console.log("error in add product==>", error);
+    return res.status(500).json({
       error: true,
       message: "Some thing went wrong",
     });
