@@ -1,5 +1,29 @@
 import Product from "../Models/Product.model.js";
 
+export const getProduct = async (req, res) => {
+  try {
+    const allProduct = await Product.find({})
+      .populate("category")
+      .populate("createdby");
+
+    if (allProduct.length == 0) {
+      res.status(400).json({
+        message: "No product Found",
+      });
+    }
+    res.status(201).json({
+      message: "Product Found",
+      allProduct,
+    });
+  } catch (error) {
+    console.log("error in get product==>", error);
+    return res.status(500).json({
+      error: true,
+      message: "Some thing went wrong",
+    });
+  }
+};
+
 export const addProduct = async (req, res) => {
   const { title, description, category, price, quantity, createdby } = req.body;
   try {

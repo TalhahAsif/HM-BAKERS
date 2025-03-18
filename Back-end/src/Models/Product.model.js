@@ -13,7 +13,7 @@ const ProductSchema = new mongoose.Schema(
     },
     createdby: {
       type: Schema.Types.ObjectId,
-      ref: "admins",
+      ref: "Admin",
       required: true,
     },
   },
