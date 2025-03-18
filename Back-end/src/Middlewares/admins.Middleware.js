@@ -9,7 +9,7 @@ export const checkRole = async (req, res, next) => {
     console.log(userRole);
 
     if (userRole !== "admin" && userRole !== "manager") {
-      res.status(500).json({
+      return res.status(500).json({
         message: "ye admin ya manager nhi ha",
       });
     } else {
@@ -17,7 +17,7 @@ export const checkRole = async (req, res, next) => {
     }
   } catch (error) {
     console.log("error in checkRole middleware");
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
       message: "Some this went wrong",
     });
@@ -31,24 +31,24 @@ export const isAllowed = (req, res, next) => {
     const assignedAuthorities = req.user.authorities;
     const task = req.body.function;
 
-    console.log(typeof userRole);
+    console.log("req.user.authorities", req.user.authorities);
 
     if (userRole == "admin") {
-      return next();
+      next();
     }
     const allowed = assignedAuthorities.includes(task);
 
     console.log(allowed);
 
     if (!allowed) {
-      res.status(200).json({
+      return res.status(200).json({
         message: "access denied",
       });
     }
     next();
   } catch (error) {
     console.log("error in isAllowed middleware", error);
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
       message: "Some this went wrong",
     });

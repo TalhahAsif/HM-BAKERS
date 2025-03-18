@@ -2,24 +2,27 @@ import Product from "../Models/Product.model.js";
 
 export const getProduct = async (req, res) => {
   try {
+    req.body.function = "manage Inventory";
+
     const allProduct = await Product.find({})
       .populate("category")
       .populate("createdby");
 
-    if (allProduct.length == 0) {
-      res.status(400).json({
-        message: "No product Found",
+    if (!allProduct || allProduct.length === 0) {
+      return res.status(404).json({
+        message: "No product found",
       });
     }
-    res.status(201).json({
-      message: "Product Found",
+
+    return res.status(200).json({
+      message: "Products found",
       allProduct,
     });
   } catch (error) {
-    console.log("error in get product==>", error);
+    console.error("Error in getProduct:", error);
     return res.status(500).json({
       error: true,
-      message: "Some thing went wrong",
+      message: "Something went wrong",
     });
   }
 };

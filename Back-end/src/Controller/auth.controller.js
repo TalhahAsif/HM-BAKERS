@@ -22,7 +22,7 @@ export const signup = async (req, res) => {
     const isExist = await Customer.findOne({ email });
 
     if (isExist) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "User already exist with this email.",
       });
     }
@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
     if (newCustomer) {
       generateToken(newCustomer._id, newCustomer.role, res);
       newCustomer.save();
-      res.status(200).json({
+      return res.status(200).json({
         message: "Created successfully",
         data: req.body,
       });
@@ -49,7 +49,7 @@ export const signup = async (req, res) => {
     // console.log("newUser===>", newCustomer);
   } catch (error) {
     console.log("error in signup ==>", error.message);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Some this Went Wrong, sorry for inconvenience",
     });
   }
@@ -59,7 +59,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!password || !email) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "all fields must be filled",
       });
     }
@@ -67,7 +67,7 @@ export const login = async (req, res) => {
     const user = await Customer.findOne({ email });
 
     if (!user) {
-      res.status(500).json({
+      return res.status(500).json({
         error: true,
         message: "Invalid Credentials",
       });
@@ -81,19 +81,19 @@ export const login = async (req, res) => {
     console.log("isAuthorized", isAuthorized);
 
     if (!isAuthorized) {
-      res.status(500).json({
+      return res.status(500).json({
         error: true,
         message: "Invalid Credentials",
       });
     }
     generateToken(user._id, user.role, res);
-    res.status(200).json({
+    return res.status(200).json({
       user,
       message: "Login Successfull",
     });
   } catch (error) {
     console.log("error in login==>", error.message);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Some this Went Wrong, sorry for inconvenience",
     });
   }
