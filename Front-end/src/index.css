@@ -4,6 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Tailwind Integration */
+*{
+  scroll-behavior: smooth;
+}
 
 @theme{
   --color-main: #FFE6A7;
