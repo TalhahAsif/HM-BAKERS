@@ -12,7 +12,7 @@ const Layout = () => {
     { title: "Contact Us", link: "/contactUs" },
   ];
 
-  const cartItemCount = 3; // Example count, replace with state/context
+  const cartItemCount = 3; 
 
   return (
     <section className="bg-gradient-to-br from-purple-50 via-white to-blue-50">
