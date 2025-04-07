@@ -7,7 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { CategoryCard, ProductCard } from "../../../CustomComponent/cards";
+import { CategoryCard, ProductCard } from "../../../CustomComponent/StoreCards";
 
 export default function Main() {
   // Sample product data
@@ -19,6 +19,7 @@ export default function Main() {
       image: "/placeholder.svg?height=200&width=200",
       rating: 4.8,
       reviews: 124,
+      isNew: false,
     },
     {
       id: 2,
@@ -27,6 +28,7 @@ export default function Main() {
       image: "/placeholder.svg?height=200&width=200",
       rating: 4.7,
       reviews: 98,
+      isNew: false,
     },
     {
       id: 3,
@@ -35,6 +37,7 @@ export default function Main() {
       image: "/placeholder.svg?height=200&width=200",
       rating: 4.5,
       reviews: 87,
+      isNew: false,
     },
     {
       id: 4,
@@ -43,6 +46,7 @@ export default function Main() {
       image: "/placeholder.svg?height=200&width=200",
       rating: 4.9,
       reviews: 156,
+      isNew: false,
     },
   ];
 

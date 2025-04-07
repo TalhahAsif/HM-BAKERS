@@ -1,5 +1,5 @@
 import React from "react";
-import { ProductCard } from "../../../CustomComponent/cards";
+import { ProductCard } from "../../../CustomComponent/StoreCards";
 
 const SingleCategory = () => {
   const Products = [

@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChevronRight, Star, Menu, X, ArrowRight } from "lucide-react";
-import { SpecsCard } from "../../CustomComponent/cards";
+import { SpecsCard } from "../../CustomComponent/StoreCards";
 import Footer from "../../CustomComponent/Footer";
 
 const Landingpage = () => {

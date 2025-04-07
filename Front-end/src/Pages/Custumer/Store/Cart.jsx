@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Cart_Card, OrderSummaryCard } from "../../../CustomComponent/cards";
+import { Cart_Card, OrderSummaryCard } from "../../../CustomComponent/StoreCards";
 import { Button } from "@/Components/ui/button";
 import { ArrowLeft, Tag } from "lucide-react";
 

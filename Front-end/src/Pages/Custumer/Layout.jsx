@@ -65,7 +65,7 @@ const Layout = () => {
             {navLinks.map((data, index) => (
               <Link
                 to={data.link}
-                key={index}
+                key={index}   
                 className="block md:inline py-2 md:py-0 text-gray-900 hover:text-gray-900 dark:hover:text-gray-300 "
               >
                 {data.title}
