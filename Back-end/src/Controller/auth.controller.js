@@ -73,8 +73,8 @@ export const login = async (req, res) => {
       });
     }
 
-    if (user.role == "customer") {
-    }
+    // if (user.role == "customer") {
+    // }
 
     const isAuthorized = await bcrypt.compare(password, user.password);
 
@@ -115,7 +115,7 @@ export const logout = async (req, res) => {
 
 export const allUser = async (req, res) => {
   try {
-    const allUser = await User.find();
+    const allUser = await Customer.find();
 
     res.status(200).json({
       allUser,
@@ -141,6 +141,22 @@ export const checkAuth = (req, res) => {
 };
 
 /////admin Auth
+
+export const allAdmins = async (req, res) => {
+  try {
+    const allUser = await Admin.find();
+
+    res.status(200).json({
+      allUser,
+      message: "User finded Successfully",
+    });
+  } catch (error) {
+    console.log("error in getting allUser==>", error.message);
+    res.status(500).json({
+      message: "Some this Went Wrong, sorry for inconvenience",
+    });
+  }
+};
 
 export const adminSignup = async (req, res) => {
   const { userName, email, password, role, authorities } = req.body;

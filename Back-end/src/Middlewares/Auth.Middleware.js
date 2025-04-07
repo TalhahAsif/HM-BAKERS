@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../Models/customer.model.js";
 import Admin from "../Models/admins.model.js";
+import Customer from "../Models/customer.model.js";
 
 export const isUser = async (req, res, next) => {
   //   console.log("middleware executed", req);
@@ -25,7 +26,7 @@ export const isUser = async (req, res, next) => {
       });
     }
 
-    const customer = await User.findById(decoded.userID).select("-password");
+    const customer = await Customer.findById(decoded.userID).select("-password");
     const admin = await Admin.findById(decoded.userID).select("-password");
 
     if (!customer && !admin) {

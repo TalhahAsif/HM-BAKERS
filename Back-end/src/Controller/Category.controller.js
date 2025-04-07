@@ -1,7 +1,30 @@
 import Category from "../Models/category.model.js";
 
+export const getCategory = async (req, res) => {
+  try {
+    const allCategory = await Category.find({}).populate("createdby");
+
+    if (!allCategory || allCategory.length === 0) {
+      return res.status(404).json({
+        message: "No category found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Categories found",
+      allCategory,
+    });
+  } catch (error) {
+    console.error("Error in getCategory:", error);
+    return res.status(500).json({
+      error: true,
+      message: "Something went wrong",
+    });
+  }
+}
+
 export const addCategory = async (req, res) => {
-  const { title } = req.body;
+  const { title, createdby } = req.body;
   try {
     const isExist = await Category.findOne({ title });
 
@@ -10,9 +33,15 @@ export const addCategory = async (req, res) => {
         message: "Category with this title already exist",
       });
     }
+    if (!title || !createdby) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
 
     const newCategory = new Category({
       title,
+      createdby,
     });
 
     if (newCategory) {
