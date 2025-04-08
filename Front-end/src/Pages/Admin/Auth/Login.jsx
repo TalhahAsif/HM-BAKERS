@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -12,11 +12,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../../../lib/Axios";
+import Cookies from "js-cookie";
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
+
+// const token = Cookies.get();
+// console.log(token);
 
 export default function Login() {
   const {
@@ -26,6 +30,25 @@ export default function Login() {
   } = useForm({
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    const fetchAuthData = async () => {
+      const token = Cookies.get("jwt");
+      console.log("JWT Token:", token);
+
+      try {
+        const response = await axiosInstance.get("/auth/checkAuth");
+        console.log(response.data, "response.data");
+      } catch (error) {
+        console.error(
+          error.response?.data || "Error occurred",
+          "error.response.data"
+        );
+      }
+    };
+
+    fetchAuthData(); // Call the async function
+  }, []);
 
   const onSubmit = async (data) => {
     console.log(data);
